@@ -18,7 +18,12 @@
 
 #### Решение 1  
   
-
+*Работающий runner*  
+![Работающий runner](https://github.com/KupIOxaCaH/GitLab/blob/main/img/1.PNG)  
+![Работающий runner](https://github.com/KupIOxaCaH/GitLab/blob/main/img/2.PNG)  
+![Работающий runner](https://github.com/KupIOxaCaH/GitLab/blob/main/img/3.PNG)  
+*Настройки runner*  
+![Настройки runner](https://github.com/KupIOxaCaH/GitLab/blob/main/img/4.PNG)
   
 ---
 
@@ -38,7 +43,36 @@
 ---
 
 #### Решение 2  
+
+*Выполненый pipilene*  
+![Выполненый pipilene](https://github.com/KupIOxaCaH/GitLab/blob/main/img/5.PNG)
+
+*Код pipilene:*  
   
+stages:
+  - test
+  - analyze
+
+test_job:
+  stage: test
+  script:
+    - echo "Запуск тестов Go..."
+    - go test .
+    - echo "Тесты выполнены успешно!"
+  only:
+    - main
+
+analyze_job:
+  stage: analyze
+  script:
+    - echo "Лёгкий анализ без зависимостей:"
+    - echo "1. Проверка синтаксиса:"
+    - find . -name '*.go' -exec gofmt -l {} \; | grep -v vendor/ || true
+    - echo "2. Подсчёт строк кода:"
+    - find . -name '*.go' | xargs wc -l
+    - echo "3. Проверка на наличие TODO:"
+    - grep -rn "TODO" . || true
+    - echo "Анализ завершён!"
 
   
 ---
